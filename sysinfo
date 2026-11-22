@@ -1,0 +1,19 @@
+!/bin/bash
+
+echo "========================================"
+echo "        ARCH LINUX SYSTEM DASHBOARD     "
+echo "========================================"
+echo "User & Host : $(whoami)@$(hostname)"
+echo "Kernel      : $(uname -r)"
+echo "Date (UTC)  : $(date -u '+%Y-%m-%d %H:%M:%S')"
+echo "Packages    : $(pacman -Q | wc -l) installed"
+echo "Disk Free   : $(df -h ~ | awk 'NR==2 {print $4 " free of " $2 " (" $5 " used)"}')"
+
+if [ -f ~/netcheck.log ]; then
+    OK_COUNT=$(grep -c "\[OK\]" ~/netcheck.log)
+    FAIL_COUNT=$(grep -c "\[FAIL\]" ~/netcheck.log)
+    echo "Net Checks  : $OK_COUNT OK / $FAIL_COUNT FAILED"
+else
+    echo "Net Checks  : No log file found"
+fi
+echo "========================================"
