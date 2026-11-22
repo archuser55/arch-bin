@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "=== Arch Network Checker ==="
+
+if [ $# -eq 0 ]; then
+    echo "Usage: ./netcheck.sh <domain1> <domain2> ..."
+    exit 1
+fi
+
+for DOMAIN in "$@"; do
+    NOW=$(date "+%Y-%m-%d %H:%M:%S")
+    URL="https://$DOMAIN"
+    if curl -Is --connect-timeout 5 "$URL" > /dev/null; then
+        echo "[OK]  $DOMAIN is reachable!"
+        echo "[$NOW] [OK] $DOMAIN" >> ~/netcheck.log
+    else
+        echo "[FAIL] Could not connect to $DOMAIN."
+        echo "[$NOW] [FAIL] $DOMAIN" >> ~/netcheck.log
+    fi
+done
