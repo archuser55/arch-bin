@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "========================================"
-echo "        ARCH LINUX SYSTEM DASHBOARD     "
+echo "        ARCH MOBILE DASHBOARD (x2)     "
 echo "========================================"
 echo "User & Host : $(whoami)@$(hostname)"
 echo "Kernel      : $(uname -r)"
