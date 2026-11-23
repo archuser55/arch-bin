@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+import os, platform
+
+user = os.getenv("USER", "archuser")
+arch = platform.machine()
+print(f"Hello {user}! Python {platform.python_version()} is running on {arch}.")
