@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import os, platform, shutil, subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
+user = os.getenv("USER", "archuser")
+utc_now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+pkgs = len(subprocess.check_output(["pacman", "-Qq"], text=True).splitlines())
+
+total, used, free = shutil.disk_usage("/")
+free_gb = free / (1024**3)
+
+log = Path.home() / "netcheck.log"
+lines = log.read_text().splitlines() if log.exists() else []
+ok = sum("[OK]" in l for l in lines)
+fail = sum("[FAIL]" in l for l in lines)
+
+print(f"=== Arch Dasdboard ({user}@{platform.node()}) ===")
+print(f"Kernel : {platform.release()}")
+print(f"Time   : {utc_now}")
+print(f"Pkgs   : {pkgs} installed")
+print(f"Disk   : {free_gb:.1f} GB free")
+print(f"Netlog : {ok}OK / {fail} FAIL")
