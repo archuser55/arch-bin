@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+import argparse, subprocess
+from pathlib import Path
+
+p = argparse.ArgumentParser(prog="archtool")
+sub = p.add_subparsers(dest="cmd", required=True)
+sub.add_parser("info")
+c = sub.add_parser("check")
+c.add_argument("urls", nargs="*")
+c.add_argument("--json", action="store_true")
+sub.add_parser("log")
+args = p.parse_args()
+
+if args.cmd == "info":
+    subprocess.run(["pysysinfo"])
+elif args.cmd == "check":
+    cmd = ["pynetcheck"] + args.urls + (["--json"] if args.json else [])
+    subprocess.run(cmd)
+elif args.cmd == "log":
+    log = Path.home() / "netcheck.log"
+    print(log.read_text() if log.exists() else "No log found.")
