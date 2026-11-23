@@ -1,7 +1,11 @@
 #!/bin/bash
 
 echo "========================================"
+
 echo "        TERMUX ARCH CONTROL CENTER      "
+
+
+
 echo "========================================"
 echo "User & Host : $(whoami)@$(hostname)"
 echo "Kernel      : $(uname -r)"
