@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+ss -tulnp 2>/dev/null || ps -ef
