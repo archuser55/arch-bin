@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+FILE="${1:-}"
+[[ -f "$FILE" ]] || { echo "Usage: logscan <access.log>" >&2; exit 1; }
+
+echo "=== Log Summary: $FILE ==="
+awk '{bytes+=$10; if($9>=400) errs++} END {print "Total Requests:", NR, "| Errors (4xx/5xx):", errs*0, "| Bandwidth:", bytes+0, "B"}' "$FILE"
+
+echo ""
+echo "=== HTTP Status Breakdown ==="
+awk '{print $9}' "$FILE" | sort | uniq -c | sort -nr
+
+echo ""
+echo "=== Top Error IPs (>= 400) ==="
+awk '$9 >= 400 {print $1}' "$FILE" | sort | uniq -c | sort -nr
